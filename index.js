@@ -21,11 +21,8 @@ function setQuizContents() {
 
 function getTitleFromURLSearchParams() {
     var encodedURL = window.location.href;
-    console.log(encodedURL);
-
     var decodedURL = decodeURI(encodedURL);
     var url = new URL(decodedURL);
-    console.log(decodedURL);
     var urlParams = url.searchParams;
     var title = urlParams.get('title');
     return title;
@@ -39,12 +36,6 @@ function getContentFromURLSearchParams() {
     var content = urlParams.get('content');
     return content;
 };
-
-function decodeURL(url) {
-    var decodedURL = decodeURI(url);
-    return decodedURL;
-};
-
 
 function makeTitleHTMLWithText(quizTitle) {
     var titleHTML = '<div class="h3 p-3">' + quizTitle + '</div>';
@@ -77,8 +68,6 @@ function makeEncodedURL(quizTitle, quizContent) {
     return url;
 }
 
-
-
 function choiceClicked(event) {
     event.preventDefault();
     console.log('choiceClicked');
@@ -95,7 +84,7 @@ function exportClicked(event) {
     var quizContent = $('#quiz-content').val();
     var url = makeEncodedURL(quizTitle, quizContent);
     $('#export-button').attr('href', url);
-}
+};
 
 function makeQuizChoiceHTMLWithText(quizChoiceText) {
     var rightChoicePattern = /-\[[oO]]\s(.*)\n/g;
@@ -109,7 +98,7 @@ function makeQuizChoiceHTMLWithText(quizChoiceText) {
     var choicesHTML = quizChoiceText.replace(rightChoicePattern, preOfCorrect + '$1' + postOfCorrect);
     choicesHTML = choicesHTML.replace(wrongChoicePattern, preOfWrong + '$1' + postOfWrong);
     return choicesHTML
-}
+};
 
 function updateQuizOutOfHTML(quizTitle, quizChoices) {
     var titleHTML = makeTitleHTMLWithText(quizTitle);
@@ -119,12 +108,4 @@ function updateQuizOutOfHTML(quizTitle, quizChoices) {
     $('#choice-box button').on('click', function (event) {
         choiceClicked(event);
     });
-}
-
-
-function questionChangedInTextArea(event) {
-    var quizContent = $('#quiz-content').val();
-    var quizTitle = $('#quiz-title').val();
-    updateQuizOutOfHTML(quizTitle, quizContent);
 };
-

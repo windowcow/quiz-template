@@ -100,6 +100,23 @@ function makeQuizChoiceHTMLWithText(quizChoiceText) {
     return choicesHTML
 };
 
+function submitClicked(event) {
+    event.preventDefault();
+    console.log('submitClicked');
+    $('#choice-box button').each(function (index, element) {
+        if ($(element).hasClass('checked-as-answer') && $(element).attr('type') == 'correct') {
+            correctChoiceAndCorrectAnswer(event);
+        }
+        else if (!$(element).hasClass('checked-as-answer') && $(element).attr('type') == 'wrong') {
+            wrongChoiceAndWrongAnswer(event);
+        }
+        else {
+            $(element).removeClass('btn-primary');
+            $(element).addClass('btn-outline-danger');
+        }
+    });
+};
+
 function updateQuizOutOfHTML(quizTitle, quizChoices) {
     var titleHTML = makeTitleHTMLWithText(quizTitle);
     var choicesHTML = makeQuizChoiceHTMLWithText(quizChoices);

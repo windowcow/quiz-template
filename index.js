@@ -130,7 +130,7 @@ function submitClicked(event) {
 function refreshClicked(event) {
     event.preventDefault();
     console.log('refreshClicked');
-    questionChangedInTextArea(event);
+    setQuizContents();
 };
 
 function updateQuizOutOfHTML(quizTitle, quizChoices) {

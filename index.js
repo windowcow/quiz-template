@@ -12,8 +12,8 @@ $(document).ready(function () {
 });
 
 function setQuizContents() {
-    var quizTitle = getTitleFromURLSearchParams();
-    var quizContent = getContentFromURLSearchParams();
+    var quizTitle = decodeURIComponent(getTitleFromURLSearchParams());
+    var quizContent = decodeURIComponent(getContentFromURLSearchParams());
     updateQuizOutOfHTML(quizTitle, quizContent);
     console.log(quizTitle);
 
@@ -22,7 +22,7 @@ function setQuizContents() {
 function getTitleFromURLSearchParams() {
     var encodedURL = window.location.href;
     var decodedURL = decodeURI(encodedURL);
-    var url = new URL(decodedURL);
+    var url = new URL(encodedURL);
     var urlParams = url.searchParams;
     var title = urlParams.get('title');
     return title;
@@ -31,7 +31,7 @@ function getTitleFromURLSearchParams() {
 function getContentFromURLSearchParams() {
     var encodedURL = window.location.href;
     var decodedURL = decodeURI(encodedURL);
-    var url = new URL(decodedURL);
+    var url = new URL(encodedURL);
     var urlParams = url.searchParams;
     var content = urlParams.get('content');
     return content;

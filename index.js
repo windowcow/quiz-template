@@ -130,6 +130,7 @@ function submitClicked(event) {
 function refreshClicked(event) {
     event.preventDefault();
     console.log('refreshClicked');
+    $('#submit-button').prop('disabled', false);
     setQuizContents();
 };
 

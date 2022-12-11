@@ -21,6 +21,8 @@ function setQuizContents() {
 
 function getTitleFromURLSearchParams() {
     var encodedURL = window.location.href;
+    console.log(encodedURL);
+
     var decodedURL = decodeURI(encodedURL);
     var url = new URL(decodedURL);
     console.log(decodedURL);

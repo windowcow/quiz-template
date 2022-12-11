@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('#submit-button').on('click', function (event) {
         submitClicked(event);
     });
-
+    console.log('document ready');
     setQuizContents();
 });
 

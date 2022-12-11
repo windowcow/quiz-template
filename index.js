@@ -15,6 +15,7 @@ function setQuizContents() {
     var quizTitle = getTitleFromURLSearchParams();
     var quizContent = getContentFromURLSearchParams();
     updateQuizOutOfHTML(quizTitle, quizContent);
+    console.log(quizTitle);
 
 };
 

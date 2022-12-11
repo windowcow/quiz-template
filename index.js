@@ -20,10 +20,11 @@ function setQuizContents() {
 };
 
 function getTitleFromURLSearchParams() {
-    var encodedURL = new URL(window.location.href);
+    var encodedURL = window.location.href;
     var decodedURL = decodeURI(encodedURL);
+    var url = new URL(decodedURL);
     console.log(decodedURL);
-    var urlParams = decodedURL.searchParams;
+    var urlParams = url.searchParams;
     var title = urlParams.get('title');
     return title;
 };
@@ -31,7 +32,8 @@ function getTitleFromURLSearchParams() {
 function getContentFromURLSearchParams() {
     var encodedURL = window.location.href;
     var decodedURL = decodeURI(encodedURL);
-    var urlParams = decodedURL.searchParams;
+    var url = new URL(decodedURL);
+    var urlParams = url.searchParams;
     var content = urlParams.get('content');
     return content;
 };

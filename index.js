@@ -116,13 +116,7 @@ function submitClicked(event) {
             var wrongDeco = '<div class="col-1 m-auto fw-bold text-danger text-center">WRONG</div>';
             $(element).parent().prepend(wrongDeco);
             $(element).remove();
-            // $(element).removeClass('btn-primary');
-            // $(element).removeClass('btn-outline-primary');
-            // $(element).toggle('text-white');
-            // $(element).addClass('btn-outline-danger');
-            // $(element).append('-> THIS IS A WRONG CHOICE')
             event.target.disabled = true;
-
         }
     });
 };

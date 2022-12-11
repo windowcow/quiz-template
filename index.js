@@ -9,6 +9,10 @@ $(document).ready(function () {
 
     $('#submit-button').val('asdf');
     setQuizContents();
+
+    $('#refresh-button').on('click', function (event) {
+        refreshClicked(event);
+    });
 });
 
 function setQuizContents() {
@@ -21,7 +25,6 @@ function setQuizContents() {
 
 function getTitleFromURLSearchParams() {
     var encodedURL = window.location.href;
-    var decodedURL = decodeURI(encodedURL);
     var url = new URL(encodedURL);
     var urlParams = url.searchParams;
     var title = urlParams.get('title');
@@ -30,7 +33,6 @@ function getTitleFromURLSearchParams() {
 
 function getContentFromURLSearchParams() {
     var encodedURL = window.location.href;
-    var decodedURL = decodeURI(encodedURL);
     var url = new URL(encodedURL);
     var urlParams = url.searchParams;
     var content = urlParams.get('content');
@@ -47,18 +49,22 @@ function titleChanged(event) {
     $('#title-box').html(titleHTML);
 };
 
-function correctChoiceAndCorrectAnswer(event) {
+function correctChoiceAndCorrectAnswer(element) {
+    var rightDeco = '<div class="col-1 m-auto fw-bold text-success text-center">RIGHT</div>';
+
+    $(element).parent().prepend(rightDeco);
     $(element).removeClass('btn-primary');
     $(element).removeClass('btn-outline-dark');
     $(element).addClass('btn-success text-white');
 };
 
+function wrongChoiceAndWrongAnswer(element) {
+    var wrongDeco = '<div class="col-1 m-auto fw-bold text-danger text-center">WRONG</div>';
 
-
-function wrongChoiceAndWrongAnswer(event) {
+    $(element).parent().prepend(wrongDeco);
     $(element).removeClass('btn-primary');
-    $(element).removeClass('btn-outline-primary');
-    $(element).addClass('btn-success text-white');
+    $(element).removeClass('btn-outline-dark');
+    $(element).addClass('btn-danger text-white');
 };
 
 function makeEncodedURL(quizTitle, quizContent) {
@@ -77,23 +83,14 @@ function choiceClicked(event) {
     event.target.classList.toggle('checked-as-answer');
 };
 
-function exportClicked(event) {
-    event.preventDefault();
-    console.log('exportClicked');
-    var quizTitle = $('#quiz-title').val();
-    var quizContent = $('#quiz-content').val();
-    var url = makeEncodedURL(quizTitle, quizContent);
-    $('#export-button').attr('href', url);
-};
-
 function makeQuizChoiceHTMLWithText(quizChoiceText) {
     var rightChoicePattern = /-\[[oO]]\s(.*)\n/g;
     var wrongChoicePattern = /-\[[xX]]\s(.*)\n/g;
     // html fragment
-    var preOfCorrect = '<button class="mx-auto my-1 w-75 align-self-center btn btn-outline-dark border-5" type="correct" data-toggle="button" aria-pressed="false" autocomplete="off">';
-    var postOfCorrect = '</button>';
-    var preOfWrong = '<button class="mx-auto my-1 w-75 align-self-center btn btn-outline-dark border-5" type="wrong" data-toggle="button" aria-pressed="false" autocomplete="off">';
-    var postOfWrong = '</button>';
+    var preOfCorrect = '<div class="row"><button class="mx-auto my-1 w-75 align-self-center btn btn-outline-dark border-5" type="correct" data-toggle="button" aria-pressed="false" autocomplete="off">';
+    var postOfCorrect = '</button></div>';
+    var preOfWrong = '<div class="row"><button class="mx-auto my-1 w-75 align-self-center btn btn-outline-dark border-5" type="wrong" data-toggle="button" aria-pressed="false" autocomplete="off">';
+    var postOfWrong = '</button></div>';
 
     var choicesHTML = quizChoiceText.replace(rightChoicePattern, preOfCorrect + '$1' + postOfCorrect);
     choicesHTML = choicesHTML.replace(wrongChoicePattern, preOfWrong + '$1' + postOfWrong);
@@ -103,18 +100,38 @@ function makeQuizChoiceHTMLWithText(quizChoiceText) {
 function submitClicked(event) {
     event.preventDefault();
     console.log('submitClicked');
+
     $('#choice-box button').each(function (index, element) {
         if ($(element).hasClass('checked-as-answer') && $(element).attr('type') == 'correct') {
-            correctChoiceAndCorrectAnswer(event);
+            correctChoiceAndCorrectAnswer(element);
+            element.disabled = true;
+            event.target.disabled = true;
+
         }
         else if (!$(element).hasClass('checked-as-answer') && $(element).attr('type') == 'wrong') {
-            wrongChoiceAndWrongAnswer(event);
+            wrongChoiceAndWrongAnswer(element);
+            element.disabled = true;
+            event.target.disabled = true;
         }
         else {
+            var wrongDeco = '<div class="col-1 m-auto fw-bold text-danger text-center">WRONG</div>';
+            $(element).parent().prepend(wrongDeco);
             $(element).removeClass('btn-primary');
+            $(element).removeClass('btn-outline-primary');
+            $(element).toggle('text-white');
             $(element).addClass('btn-outline-danger');
+            $(element).append('-> THIS IS A WRONG CHOICE')
+            element.disabled = true;
+            event.target.disabled = true;
+
         }
     });
+};
+
+function refreshClicked(event) {
+    event.preventDefault();
+    console.log('refreshClicked');
+    questionChangedInTextArea(event);
 };
 
 function updateQuizOutOfHTML(quizTitle, quizChoices) {

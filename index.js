@@ -29,7 +29,7 @@ function getTitleFromURLSearchParams() {
 };
 
 function getContentFromURLSearchParams() {
-    var encodedURL = new URL(window.location.href);
+    var encodedURL = window.location.href;
     var decodedURL = decodeURI(encodedURL);
     var urlParams = decodedURL.searchParams;
     var content = urlParams.get('content');

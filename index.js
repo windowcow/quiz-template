@@ -7,6 +7,7 @@ $(document).ready(function () {
         submitClicked(event);
     });
     console.log('document ready');
+    $('submit-button').val('asdf');
     setQuizContents();
 });
 
